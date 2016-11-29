@@ -6,21 +6,21 @@ class ReportTestCase(SchemaTestCase):
     def test_is_data_correct_after_serialization(self):
         data = {
             "additional_metadata": {
-                "number_of_strings": 564913
+                "number_of_strings": 44155
             },
-            "analysis_date": "2016-11-23T15:59:52+00:00",
+            "analysis_date": "2016-11-23T20:23:15.545000+00:00",
             "analysis_system": "http://localhost:5000/api/analysis_system/strings/",
             "error_message": None,
-            "id": "5835bd5ca7a7f108431331d0",
+            "id": "58362185a7a7f10843133337",
             "json_report_objects": {
-                "found_strings": "http://localhost:5000/api/report/5835bd5ca7a7f108431331d0/json_report_object/found_strings/"
+                "found_strings": "http://localhost:5000/api/report/58362185a7a7f10843133337/json_report_object/found_strings/"
             },
             "raw_report_objects": {},
-            "sample": "http://localhost:5000/api/sample/5822057fa7a7f10cc420e3b7/",
+            "sample": "http://localhost:5000/api/sample/58362178a7a7f1084313332b/",
             "status": 0,
             "tags": [],
-            "upload_date": "2016-11-23T16:01:32+00:00",
-            "url": "http://localhost:5000/api/report/5835bd5ca7a7f108431331d0/"
+            "upload_date": "2016-11-23T23:08:53+00:00",
+            "url": "http://localhost:5000/api/report/58362185a7a7f10843133337/"
         }
 
         schema = ReportSchema()
