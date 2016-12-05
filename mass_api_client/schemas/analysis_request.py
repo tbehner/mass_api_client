@@ -1,5 +1,6 @@
 from marshmallow import fields, post_load
-from mass_api_client import AnalysisRequest
+
+from mass_api_client.resources.analysis_request import AnalysisRequest
 from .base import BaseSchema
 
 

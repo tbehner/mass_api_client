@@ -1,5 +1,6 @@
 from marshmallow import fields, validate, post_load
-from mass_api_client import Report
+
+from mass_api_client.resources.report import Report
 from .base import BaseSchema
 
 
