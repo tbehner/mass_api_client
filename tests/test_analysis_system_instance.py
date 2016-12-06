@@ -1,18 +1,13 @@
-from tests.schema_test_case import SchemaTestCase
+import json
+
 from mass_api_client.schemas.analysis_system_instance import AnalysisSystemInstanceSchema
+from tests.schema_test_case import SchemaTestCase
 
 
 class AnalysisSystemInstanceTestCase(SchemaTestCase):
     def test_is_data_correct_after_serialization(self):
-        data = {
-            "analysis_system": "http://localhost:5000/api/analysis_system/croax/",
-            "id": "5834ae94a7a7f11e52b06287",
-            "is_online": False,
-            "last_seen": None,
-            "scheduled_analyses_count": 0,
-            "url": "http://localhost:5000/api/analysis_system_instance/5a391093-f251-4c08-991d-26fc5e0e5793/",
-            "uuid": "5a391093-f251-4c08-991d-26fc5e0e5793"
-        }
+        with open('tests/data/analysis_system_instance.json') as data_file:
+            data = json.load(data_file)
 
         schema = AnalysisSystemInstanceSchema()
         self.assertEqualAfterSerialization(schema, data)

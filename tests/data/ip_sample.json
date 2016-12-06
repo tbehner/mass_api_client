@@ -1,0 +1,13 @@
+{
+  "_cls": "Sample.IPSample",
+  "delivery_date": "2016-10-21T13:21:43+00:00",
+  "dispatched_to": [],
+  "first_seen": "2016-10-21T13:21:43+00:00",
+  "id": "580a1667a7a7f11628e905eb",
+  "ip_address": "192.168.1.1",
+  "tags": [
+    "sample-type:ipsample"
+  ],
+  "tlp_level": 0,
+  "url": "http://localhost:5000/api/sample/580a1667a7a7f11628e905eb/"
+}

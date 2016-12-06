@@ -1,0 +1,36 @@
+{
+  "_cls": "Sample.FileSample.ExecutableBinarySample",
+  "delivery_date": "2016-11-08T17:03:46+00:00",
+  "dispatched_to": [],
+  "file": "http://localhost:5000/api/sample/5822057fa7a7f10cc420e3b7/download/",
+  "file_names": [
+    "executable.exe"
+  ],
+  "file_size": 109092736,
+  "filesystem_events": [],
+  "first_seen": "2016-11-08T17:03:46+00:00",
+  "id": "5822057fa7a7f10cc420e3b7",
+  "imports": [],
+  "magic_string": "PE32 executable (GUI) Intel 80386, for MS Windows, Nullsoft Installer self-extracting archive",
+  "md5sum": "98bdafb444d5c9470e48b3f0bdc95bdd",
+  "mime_type": "application/x-dosexec",
+  "registry_events": [],
+  "resources": [],
+  "sections": [],
+  "sha1sum": "90ceab62fdf6347b045bb518dba42f3131051802",
+  "sha256sum": "d986f427de825cf0d9205cfd76dfbc0ab7237b60b9682fca3343f29a18096aa3",
+  "sha512sum": "449f086c15e7cc831d1a1e6af865df2d78ba1a1c39706c4c2ac92d0faaa56794d608b167e5e3f1b1536dac39b9e8918af998853a1633ffc2bf141f3f48df8ac4",
+  "shannon_entropy": 7.998003165112367,
+  "ssdeep_hash": "3145728:6eav2yDMNmp6r/dzWev0t/FT774wflib+/dhwK8Jc4Fi2:/av2X/vKZ7vflY+/58",
+  "strings": [],
+  "tags": [
+    "extension:exe",
+    "sample-type:filesample",
+    "filetype:pe-32",
+    "filetype:windows-binary",
+    "mime:application/x-dosexec",
+    "sample-type:executablebinarysample"
+  ],
+  "tlp_level": 0,
+  "url": "http://localhost:5000/api/sample/5822057fa7a7f10cc420e3b7/"
+}
