@@ -52,34 +52,8 @@ class MASSApiTestCase(unittest.TestCase):
             self.assertRaises(requests.exceptions.HTTPError, lambda: ma._post_json('http://localhost/api/json', self.example_data))
 
     def test_getting_scheduled_analyses(self):
-        data = {
-            "results": [
-                {
-                    "analysis_scheduled": "2016-11-24T00:38:21+00:00",
-                    "analysis_system_instance": "http://localhost:5000/api/analysis_system_instance/b200ad66-f18a-4b37-b251-91d5ee948ef4/",
-                    "id": "5836367da7a7f1084313338e",
-                    "priority": 0,
-                    "sample": "http://localhost:5000/api/sample/58362178a7a7f1084313332b/",
-                    "url": "http://localhost:5000/api/scheduled_analysis/5836367da7a7f1084313338e/"
-                },
-                {
-                    "analysis_scheduled": "2016-11-24T00:38:21+00:00",
-                    "analysis_system_instance": "http://localhost:5000/api/analysis_system_instance/b200ad66-f18a-4b37-b251-91d5ee948ef4/",
-                    "id": "5836367da7a7f1084313338d",
-                    "priority": 0,
-                    "sample": "http://localhost:5000/api/sample/583621b9a7a7f1084313337a/",
-                    "url": "http://localhost:5000/api/scheduled_analysis/5836367da7a7f1084313338d/"
-                },
-                {
-                    "analysis_scheduled": "2016-11-23T20:25:21+00:00",
-                    "analysis_system_instance": "http://localhost:5000/api/analysis_system_instance/b200ad66-f18a-4b37-b251-91d5ee948ef4/",
-                    "id": "5835fb31a7a7f10843133318",
-                    "priority": 0,
-                    "sample": "http://localhost:5000/api/sample/582a159aa7a7f11b6c84d153/",
-                    "url": "http://localhost:5000/api/scheduled_analysis/5835fb31a7a7f10843133318/"
-                }
-            ]
-        }
+        with open('tests/data/scheduled_analyses.json') as data_file:
+            data = json.load(data_file)
 
         @urlmatch(netloc=r'localhost',
                   path=r'/api/analysis_system_instance/b200ad66-f18a-4b37-b251-91d5ee948ef4/scheduled_analyses/')
@@ -96,24 +70,8 @@ class MASSApiTestCase(unittest.TestCase):
         self.assertEqual(data['results'], serialized.data)
 
     def test_getting_report(self):
-        data = {
-            "additional_metadata": {
-                "number_of_strings": 44155
-            },
-            "analysis_date": "2016-11-23T20:23:15.545000+00:00",
-            "analysis_system": "http://localhost:5000/api/analysis_system/strings/",
-            "error_message": None,
-            "id": "58362185a7a7f10843133337",
-            "json_report_objects": {
-                "found_strings": "http://localhost:5000/api/report/58362185a7a7f10843133337/json_report_object/found_strings/"
-            },
-            "raw_report_objects": {},
-            "sample": "http://localhost:5000/api/sample/58362178a7a7f1084313332b/",
-            "status": 0,
-            "tags": [],
-            "upload_date": "2016-11-23T23:08:53+00:00",
-            "url": "http://localhost:5000/api/report/58362185a7a7f10843133337/"
-        }
+        with open('tests/data/report.json') as data_file:
+            data = json.load(data_file)
 
         @urlmatch(netloc=r'localhost',
                   path=r'/api/report/58362185a7a7f10843133337/')

@@ -1,0 +1,9 @@
+{
+  "analysis_system": "http://localhost:5000/api/analysis_system/croax/",
+  "id": "5834ae94a7a7f11e52b06287",
+  "is_online": false,
+  "last_seen": null,
+  "scheduled_analyses_count": 0,
+  "url": "http://localhost:5000/api/analysis_system_instance/5a391093-f251-4c08-991d-26fc5e0e5793/",
+  "uuid": "5a391093-f251-4c08-991d-26fc5e0e5793"
+}
