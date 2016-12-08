@@ -1,5 +1,6 @@
 from marshmallow import fields, validate, post_load
-from mass_api_client.analysis_system_instance import AnalysisSystemInstance
+
+from mass_api_client.resources import AnalysisSystemInstance
 from .base import BaseSchema
 
 

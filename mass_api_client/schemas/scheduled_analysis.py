@@ -1,5 +1,6 @@
 from marshmallow import fields, post_load
-from mass_api_client import ScheduledAnalysis
+
+from mass_api_client.resources import ScheduledAnalysis
 from .base import BaseSchema
 
 

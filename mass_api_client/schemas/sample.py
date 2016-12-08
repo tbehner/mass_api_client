@@ -1,5 +1,6 @@
 from marshmallow import fields, validate, post_load
-from mass_api_client import DomainSample, IPSample, FileSample, ExecutableBinarySample
+
+from mass_api_client.resources import DomainSample, IPSample, FileSample, ExecutableBinarySample
 from .base import BaseSchema
 
 
