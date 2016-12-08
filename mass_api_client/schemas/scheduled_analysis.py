@@ -1,6 +1,5 @@
-from marshmallow import fields, post_load
+from marshmallow import fields
 
-from mass_api_client.resources.scheduled_analysis import ScheduledAnalysis
 from .base import BaseSchema
 
 
@@ -9,7 +8,3 @@ class ScheduledAnalysisSchema(BaseSchema):
     sample = fields.Url(required=True)
     analysis_scheduled = fields.DateTime(required=True)
     priority = fields.Int(default=0, required=True)
-
-    @post_load
-    def make_object(self, data):
-        return ScheduledAnalysis(**data)

@@ -1,7 +1,8 @@
-class Sample:
-    def __init__(self, **kwargs):
-        self.__dict__.update(kwargs)
+from mass_api_client.schemas import DomainSampleSchema, IPSampleSchema, FileSampleSchema, ExecutableBinarySampleSchema
+from .base import BaseResource
 
+
+class Sample(BaseResource):
     def __repr__(self):
         return '[{}] {}'.format(str(self.__class__.__name__), str(self.id))
 
@@ -10,16 +11,16 @@ class Sample:
 
 
 class DomainSample(Sample):
-    pass
+    schema = DomainSampleSchema()
 
 
 class IPSample(Sample):
-    pass
+    schema = IPSampleSchema()
 
 
 class FileSample(Sample):
-    pass
+    schema = FileSampleSchema()
 
 
 class ExecutableBinarySample(FileSample):
-    pass
+    schema = ExecutableBinarySampleSchema()

@@ -1,40 +1,36 @@
 import json
 
-from mass_api_client.schemas.sample import DomainSampleSchema, IPSampleSchema, FileSampleSchema, ExecutableBinarySampleSchema
-from tests.schema_test_case import SchemaTestCase
+from mass_api_client.resources import DomainSample, IPSample, FileSample, ExecutableBinarySample
+from tests.serialization_test_case import SerializationTestCase
 
 
-class DomainSampleTestCase(SchemaTestCase):
+class DomainSampleTestCase(SerializationTestCase):
     def test_is_data_correct_after_serialization(self):
         with open('tests/data/domain_sample.json') as data_file:
             data = json.load(data_file)
 
-        schema = DomainSampleSchema()
-        self.assertEqualAfterSerialization(schema, data)
+        self.assertEqualAfterSerialization(DomainSample(), data)
 
 
-class IPSampleTestCase(SchemaTestCase):
+class IPSampleTestCase(SerializationTestCase):
     def test_is_data_correct_after_serialization(self):
         with open('tests/data/ip_sample.json') as data_file:
             data = json.load(data_file)
 
-        schema = IPSampleSchema()
-        self.assertEqualAfterSerialization(schema, data)
+        self.assertEqualAfterSerialization(IPSample(), data)
 
 
-class FileSampleTestCase(SchemaTestCase):
+class FileSampleTestCase(SerializationTestCase):
     def test_is_data_correct_after_serialization(self):
         with open('tests/data/file_sample.json') as data_file:
             data = json.load(data_file)
 
-        schema = FileSampleSchema()
-        self.assertEqualAfterSerialization(schema, data)
+        self.assertEqualAfterSerialization(FileSample(), data)
 
 
-class ExecutableBinarySampleTestCase(SchemaTestCase):
+class ExecutableBinarySampleTestCase(SerializationTestCase):
     def test_is_data_correct_after_serialization(self):
         with open('tests/data/executable_binary_sample.json') as data_file:
             data = json.load(data_file)
 
-        schema = ExecutableBinarySampleSchema()
-        self.assertEqualAfterSerialization(schema, data)
+        self.assertEqualAfterSerialization(ExecutableBinarySample(), data)

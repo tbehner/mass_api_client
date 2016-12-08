@@ -6,4 +6,5 @@ sudo: false
 script:
   - "nosetests"
 after_success:
+  - codecov
   - coveralls
