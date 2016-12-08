@@ -1,6 +1,5 @@
-from marshmallow import fields, validate, post_load
+from marshmallow import fields, validate
 
-from mass_api_client.resources import AnalysisSystemInstance
 from .base import BaseSchema
 
 
@@ -10,7 +9,3 @@ class AnalysisSystemInstanceSchema(BaseSchema):
     last_seen = fields.DateTime(allow_none=True)
     is_online = fields.Bool()
     scheduled_analyses_count = fields.Int()
-
-    @post_load
-    def make_object(self, data):
-        return AnalysisSystemInstance(**data)

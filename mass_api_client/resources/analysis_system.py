@@ -1,6 +1,9 @@
-class AnalysisSystem:
-    def __init__(self, **kwargs):
-        self.__dict__.update(kwargs)
+from mass_api_client.schemas import AnalysisSystemSchema
+from .base import BaseResource
+
+
+class AnalysisSystem(BaseResource):
+    schema = AnalysisSystemSchema()
 
     def __repr__(self):
         return '[AnalysisSystem] {}'.format(self.identifier_name)

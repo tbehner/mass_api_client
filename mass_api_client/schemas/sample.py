@@ -1,6 +1,5 @@
-from marshmallow import fields, validate, post_load
+from marshmallow import fields, validate
 
-from mass_api_client.resources import DomainSample, IPSample, FileSample, ExecutableBinarySample
 from .base import BaseSchema
 
 
@@ -16,18 +15,10 @@ class DomainSampleSchema(SampleSchema):
     _cls = fields.Str(validate=validate.Equal("Sample.DomainSample"))
     domain = fields.Str()
 
-    @post_load
-    def make_object(self, data):
-        return DomainSample(**data)
-
 
 class IPSampleSchema(SampleSchema):
     _cls = fields.Str(validate=validate.Equal("Sample.IPSample"))
     ip_address = fields.Str()
-
-    @post_load
-    def make_object(self, data):
-        return IPSample(**data)
 
 
 class FileSampleSchema(SampleSchema):
@@ -44,10 +35,6 @@ class FileSampleSchema(SampleSchema):
     ssdeep_hash = fields.Str(required=True, validate=validate.Length(max=200))
     shannon_entropy = fields.Float(validate=validate.Range(min=0, max=8))
 
-    @post_load
-    def make_object(self, data):
-        return FileSample(**data)
-
 
 class ExecutableBinarySampleSchema(FileSampleSchema):
     _cls = fields.Str(validate=validate.Equal("Sample.FileSample.ExecutableBinarySample"))
@@ -57,7 +44,3 @@ class ExecutableBinarySampleSchema(FileSampleSchema):
     resources = fields.List(cls_or_instance=fields.Str)
     imports = fields.List(cls_or_instance=fields.Str)
     strings = fields.List(cls_or_instance=fields.Str)
-
-    @post_load
-    def make_object(self, data):
-        return ExecutableBinarySample(**data)
