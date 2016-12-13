@@ -10,3 +10,6 @@ class AnalysisSystem(BaseResource):
 
     def __str__(self):
         return self.__repr__()
+
+    def get(self, identifier):
+        return self._get_detail_from_url("analysis_system/{}/".format(identifier))

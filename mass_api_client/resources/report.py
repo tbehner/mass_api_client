@@ -15,3 +15,7 @@ class Report(BaseResource):
 
     def __str__(self):
         return self.__repr__()
+
+    def get(self, report_id):
+        return self._get_detail_from_url("report/{}/".format(report_id))
+

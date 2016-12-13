@@ -16,11 +16,11 @@ class BaseResource:
     def schema(self):
         return Ref('schema').resolve(self)
 
-    def get_detail_from_url(self, url):
+    def _get_detail_from_url(self, url):
         cm = ConnectionManager()
-        return self.get_detail_from_json(cm.get_json(url))
+        return self._get_detail_from_json(cm.get_json(url))
 
-    def get_detail_from_json(self, data):
+    def _get_detail_from_json(self, data):
         deserialized, errors = self.schema.load(data)
 
         if errors:
@@ -29,7 +29,7 @@ class BaseResource:
         self.__dict__.update(deserialized)
         return self
 
-    def to_json(self):
+    def _to_json(self):
         serialized, errors = self.schema.dump(self)
 
         if errors:

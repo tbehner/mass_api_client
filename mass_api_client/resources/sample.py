@@ -9,6 +9,9 @@ class Sample(BaseResource):
     def __str__(self):
         return self.__repr__()
 
+    def get(self, sample_id):
+        return self._get_detail_from_url("sample/{}/".format(sample_id))
+
 
 class DomainSample(Sample):
     schema = DomainSampleSchema()

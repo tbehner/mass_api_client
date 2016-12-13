@@ -10,7 +10,10 @@ class Connection:
         self._default_headers = {'content-type': 'application/json',
                                  'Authorization': 'APIKEY {}'.format(api_key)}
 
-    def get_json(self, url):
+    def get_json(self, url, append_base_url):
+        if append_base_url:
+            url = self._base_url + url
+
         r = requests.get(url, headers=self._default_headers)
         r.raise_for_status()
         return r.json()
@@ -27,8 +30,8 @@ class ConnectionManager:
     def register_connection(self, alias, api_key, base_url):
         self._connections[alias] = Connection(api_key, base_url)
 
-    def get_json(self, url):
-        return self._connections['default'].get_json(url)
+    def get_json(self, url, append_base_url=True):
+        return self._connections['default'].get_json(url, append_base_url)
 
     def post_json(self, url, data):
         return self._connections['default'].post_json(url, data)

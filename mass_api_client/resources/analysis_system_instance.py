@@ -10,3 +10,6 @@ class AnalysisSystemInstance(BaseResource):
 
     def __str__(self):
         return self.__repr__()
+
+    def get(self, uuid):
+        return self._get_detail_from_url("analysis_system_instance/{}/".format(uuid))
