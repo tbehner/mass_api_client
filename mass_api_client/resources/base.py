@@ -1,3 +1,6 @@
+from mass_api_client.connection_manager import ConnectionManager
+
+
 class Ref:
     def __init__(self, key):
         self.key = key
@@ -12,6 +15,10 @@ class BaseResource:
     @property
     def schema(self):
         return Ref('schema').resolve(self)
+
+    def get_detail_from_url(self, url):
+        cm = ConnectionManager()
+        return self.get_detail_from_json(cm.get_json(url))
 
     def get_detail_from_json(self, data):
         deserialized, errors = self.schema.load(data)

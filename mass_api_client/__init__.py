@@ -1,2 +1,2 @@
 import mass_api_client.resources
-from mass_api_client.mass_api import MASSApi
+from mass_api_client.connection_manager import ConnectionManager
