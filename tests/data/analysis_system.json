@@ -1,0 +1,8 @@
+{
+  "id": "5835b97fa7a7f10843133196",
+  "identifier_name": "strings",
+  "information_text": null,
+  "tag_filter_expression": "",
+  "url": "http://localhost:5000/api/analysis_system/strings/",
+  "verbose_name": "Strings"
+}
