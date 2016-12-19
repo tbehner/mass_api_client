@@ -4,12 +4,10 @@ from .base import BaseResource
 
 class AnalysisSystem(BaseResource):
     schema = AnalysisSystemSchema()
+    endpoint = 'analysis_system'
 
     def __repr__(self):
         return '[AnalysisSystem] {}'.format(self.identifier_name)
 
     def __str__(self):
         return self.__repr__()
-
-    def get(self, identifier):
-        return self._get_detail_from_url("analysis_system/{}/".format(identifier))

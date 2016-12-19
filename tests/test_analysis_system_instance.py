@@ -9,4 +9,4 @@ class AnalysisSystemInstanceTestCase(SerializationTestCase):
         with open('tests/data/analysis_system_instance.json') as data_file:
             data = json.load(data_file)
 
-        self.assertEqualAfterSerialization(AnalysisSystemInstance(), data)
+        self.assertEqualAfterSerialization(AnalysisSystemInstance, data)

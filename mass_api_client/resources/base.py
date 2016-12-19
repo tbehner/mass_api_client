@@ -11,23 +11,33 @@ class Ref:
 
 class BaseResource:
     schema = None
+    identifier = None
 
+    def __init__(self, **kwargs):
+        self.__dict__.update(kwargs)
+
+    @classmethod
     @property
-    def schema(self):
-        return Ref('schema').resolve(self)
+    def schema(cls):
+        return Ref('schema').resolve(cls)
 
-    def _get_detail_from_url(self, url):
+    @classmethod
+    def _get_detail_from_url(cls, url):
         cm = ConnectionManager()
-        return self._get_detail_from_json(cm.get_json(url))
+        return cls._get_detail_from_json(cm.get_json(url))
 
-    def _get_detail_from_json(self, data):
-        deserialized, errors = self.schema.load(data)
+    @classmethod
+    def _get_detail_from_json(cls, data):
+        deserialized, errors = cls.schema.load(data)
 
         if errors:
             raise ValueError('An error occurred during object deserialization: {}'.format(errors))
 
-        self.__dict__.update(deserialized)
-        return self
+        return cls(**deserialized)
+
+    @classmethod
+    def get(cls, identifier):
+        return cls._get_detail_from_url('{}/{}/'.format(cls.endpoint, identifier))
 
     def _to_json(self):
         serialized, errors = self.schema.dump(self)
