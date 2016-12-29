@@ -35,6 +35,12 @@ class IPSample(Sample):
 
 class FileSample(Sample):
     schema = FileSampleSchema()
+    filter_parameters = [
+        'md5sum',
+        'sha1sum',
+        'sha256sum',
+        'sha512sum'
+    ]
 
 
 class ExecutableBinarySample(FileSample):

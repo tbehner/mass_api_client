@@ -1,6 +1,6 @@
 import json
 
-from httmock import urlmatch, HTTMock
+from httmock import all_requests, urlmatch, HTTMock
 
 from mass_api_client.resources import AnalysisRequest
 from mass_api_client.resources import AnalysisSystem
@@ -39,6 +39,29 @@ class ReportRetrievalTestCase(HTTMockTestCase):
 
         for data_obj, py_obj in zip(data['results'], obj_list):
             self.assertEqual(data_obj, py_obj._to_json())
+
+    def test_querying_file_samples(self):
+        with open('tests/data/sample_list.json') as data_file:
+            data = json.load(data_file)
+
+        params = {'md5sum': 'ee0fe7202aa7c30293cc7897e8c67837'}
+
+        @all_requests
+        def mass_mock_result(url, request):
+            self.assertAuthorized(request)
+            self.assertEqual('http://localhost/api/sample/', request.original.url)
+            self.assertEqual(params, request.original.params)
+            return json.dumps(data)
+
+        with HTTMock(mass_mock_result):
+            obj_list = FileSample.query(**params)
+
+        for data_obj, py_obj in zip(data['results'], obj_list):
+            self.assertEqual(data_obj, py_obj._to_json())
+
+    def test_raising_exception_for_invalid_filter_parameters(self):
+        with self.assertRaises(ValueError):
+            Sample.query(invalid_filter='example')
 
     def test_getting_sample_list(self):
         self.assertCorrectHTTPListRetrieval(Sample, r'/api/sample/', 'tests/data/sample_list.json')

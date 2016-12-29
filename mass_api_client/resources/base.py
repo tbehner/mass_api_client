@@ -12,6 +12,7 @@ class Ref:
 class BaseResource:
     schema = None
     endpoint = None
+    filter_parameters = []
 
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
@@ -42,10 +43,10 @@ class BaseResource:
         return cls._create_instance_from_data(deserialized)
 
     @classmethod
-    def _get_list_from_url(cls, url):
+    def _get_list_from_url(cls, url, params={}):
         cm = ConnectionManager()
 
-        deserialized = cls._deserialize(cm.get_json(url)['results'], many=True)
+        deserialized = cls._deserialize(cm.get_json(url, params=params)['results'], many=True)
         objects = [cls._create_instance_from_data(detail) for detail in deserialized]
 
         return objects
@@ -57,6 +58,18 @@ class BaseResource:
     @classmethod
     def all(cls):
         return cls._get_list_from_url('{}/'.format(cls.endpoint))
+
+    @classmethod
+    def query(cls, **kwargs):
+        params = {}
+
+        for key, value in kwargs.items():
+            if key in cls.filter_parameters:
+                params[key] = value
+            else:
+                raise ValueError('\'{}\' is not a filter parameter for class \'{}\''.format(key, cls.__name__))
+
+        return cls._get_list_from_url('{}/'.format(cls.endpoint), params=params)
 
     def _to_json(self):
         serialized, errors = self.schema.dump(self)
