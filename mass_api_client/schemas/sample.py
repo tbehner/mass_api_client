@@ -4,8 +4,8 @@ from .base import BaseSchema
 
 
 class SampleSchema(BaseSchema):
-    delivery_date = fields.DateTime(required=True)
-    first_seen = fields.DateTime(required=True)
+    delivery_date = fields.DateTime()
+    first_seen = fields.DateTime()
     tags = fields.List(cls_or_instance=fields.Str)
     dispatched_to = fields.List(cls_or_instance=fields.Str)
     tlp_level = fields.Int(required=True)
@@ -28,11 +28,11 @@ class FileSampleSchema(SampleSchema):
     file_size = fields.Int()
     magic_string = fields.Str()
     mime_type = fields.Str()
-    md5sum = fields.Str(required=True, validate=validate.Length(equal=32))
-    sha1sum = fields.Str(required=True, validate=validate.Length(equal=40))
-    sha256sum = fields.Str(required=True, validate=validate.Length(equal=64))
-    sha512sum = fields.Str(required=True, validate=validate.Length(equal=128))
-    ssdeep_hash = fields.Str(required=True, validate=validate.Length(max=200))
+    md5sum = fields.Str(validate=validate.Length(equal=32))
+    sha1sum = fields.Str(validate=validate.Length(equal=40))
+    sha256sum = fields.Str(validate=validate.Length(equal=64))
+    sha512sum = fields.Str(validate=validate.Length(equal=128))
+    ssdeep_hash = fields.Str(validate=validate.Length(max=200))
     shannon_entropy = fields.Float(validate=validate.Range(min=0, max=8))
 
 

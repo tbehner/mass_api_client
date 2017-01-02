@@ -12,6 +12,7 @@ class Ref:
 class BaseResource:
     schema = None
     endpoint = None
+    creation_point = None
     filter_parameters = []
 
     def __init__(self, **kwargs):
@@ -50,6 +51,21 @@ class BaseResource:
         objects = [cls._create_instance_from_data(detail) for detail in deserialized]
 
         return objects
+
+    @classmethod
+    def _create(cls, additional_file=None, **kwargs):
+        cm = ConnectionManager()
+        url = '{}/'.format(cls.creation_point)
+        serialized, errors = cls.schema.dump(kwargs)
+
+        if additional_file:
+            response_data = cm.post_json(url, serialized, file=additional_file)
+        else:
+            response_data = cm.post_json(url, serialized)
+
+        deserialized = cls._deserialize(response_data)
+
+        return cls._create_instance_from_data(deserialized)
 
     @classmethod
     def get(cls, identifier):

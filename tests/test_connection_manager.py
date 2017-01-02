@@ -26,9 +26,9 @@ class MASSApiTestCase(HTTMockTestCase):
             return json.dumps(self.example_data)
 
         with HTTMock(mass_mock_post_json):
-            response = self.cm.post_json('http://localhost/api/json', data=self.example_data)
+            response = self.cm.post_json('http://localhost/api/json', append_base_url=False, data=self.example_data)
 
-        self.assertEqual(self.example_data, response.json())
+        self.assertEqual(self.example_data, response)
 
     def test_receiving_server_error(self):
         @urlmatch(netloc=r'localhost', path=r'/api/json')
@@ -38,5 +38,5 @@ class MASSApiTestCase(HTTMockTestCase):
 
         with HTTMock(mass_mock_forbidden):
             self.assertRaises(requests.exceptions.HTTPError, lambda: self.cm.get_json('http://localhost/api/json', append_base_url=False))
-            self.assertRaises(requests.exceptions.HTTPError, lambda: self.cm.post_json('http://localhost/api/json', self.example_data))
+            self.assertRaises(requests.exceptions.HTTPError, lambda: self.cm.post_json('http://localhost/api/json', self.example_data, append_base_url=False))
 

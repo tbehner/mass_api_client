@@ -31,10 +31,13 @@ class DomainSample(Sample):
 
 class IPSample(Sample):
     schema = IPSampleSchema()
+    creation_point = 'sample/submit_ip'
 
 
 class FileSample(Sample):
     schema = FileSampleSchema()
+    creation_point = 'sample/submit_file'
+
     filter_parameters = [
         'md5sum',
         'sha1sum',
