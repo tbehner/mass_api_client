@@ -27,11 +27,20 @@ class Sample(BaseResource):
 
 class DomainSample(Sample):
     schema = DomainSampleSchema()
+    creation_point = 'sample/submit_domain'
+
+    @classmethod
+    def create(cls, domain, tlp_level=0):
+        return cls._create(domain=domain, tlp_level=tlp_level)
 
 
 class IPSample(Sample):
     schema = IPSampleSchema()
     creation_point = 'sample/submit_ip'
+
+    @classmethod
+    def create(cls, ip_address, tlp_level=0):
+        return cls._create(ip_address=ip_address, tlp_level=tlp_level)
 
 
 class FileSample(Sample):
@@ -44,6 +53,10 @@ class FileSample(Sample):
         'sha256sum',
         'sha512sum'
     ]
+
+    @classmethod
+    def create(cls, filename, file, tlp_level=0):
+        return cls._create(additional_file=(filename, file), tlp_level=tlp_level)
 
 
 class ExecutableBinarySample(FileSample):
