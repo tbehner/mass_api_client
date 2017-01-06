@@ -56,7 +56,7 @@ class FileSample(Sample):
 
     @classmethod
     def create(cls, filename, file, tlp_level=0):
-        return cls._create(additional_file=(filename, file), tlp_level=tlp_level)
+        return cls._create(additional_binary_files={'file': (filename, file)}, tlp_level=tlp_level)
 
 
 class ExecutableBinarySample(FileSample):

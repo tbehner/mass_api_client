@@ -36,12 +36,12 @@ class MASSApiTestCase(HTTMockTestCase):
             def mass_mock_post_file(url, request):
                 self.assertAuthorized(request)
                 self.assertHasFile(request, 'file', 'test_data', data_file)
-                self.assertHasFile(request, 'metadata', None, json.dumps(self.example_data), 'application/json')
+                self.assertHasFile(request, 'metadata', 'metadata', json.dumps(self.example_data), 'application/json')
                 return json.dumps(self.example_data)
 
             with HTTMock(mass_mock_post_file):
-                file = ('test_data', data_file)
-                response = self.cm.post_json('http://localhost/api/json', append_base_url=False, data=self.example_data, file=file)
+                files = {'file': ('test_data', data_file)}
+                response = self.cm.post_multipart('http://localhost/api/json', append_base_url=False, metadata=self.example_data, binary_files=files)
 
         self.assertEqual(self.example_data, response)
 

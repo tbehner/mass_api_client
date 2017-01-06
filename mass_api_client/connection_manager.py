@@ -18,17 +18,34 @@ class Connection:
         r.raise_for_status()
         return r.json()
 
-    def post_json(self, url, data, append_base_url, params, file):
+    def post_json(self, url, data, append_base_url, params):
         if append_base_url:
             url = self._base_url + url
 
-        if file:
-            headers = {'Authorization': self._default_headers['Authorization']}
-            request_body = {'metadata': (None, json.dumps(data), 'application/json'), 'file': file}
-            r = requests.post(url, headers=headers, params=params, files=request_body)
-        else:
-            r = requests.post(url, json.dumps(data), headers=self._default_headers, params=params)
+        r = requests.post(url, json.dumps(data), headers=self._default_headers, params=params)
+        r.raise_for_status()
+        return r.json()
 
+    def post_multipart(self, url, metadata, append_base_url, params, json_files=None, binary_files=None):
+        if binary_files is None:
+            binary_files = {}
+        if json_files is None:
+            json_files = {}
+        if append_base_url:
+            url = self._base_url + url
+        files = {}
+
+        headers = self._default_headers.copy()
+        headers.pop('content-type')
+        json_files['metadata'] = ('metadata', metadata)
+
+        for key, value in json_files.items():
+            files[key] = (value[0], json.dumps(value[1]), 'application/json')
+
+        for key, value in binary_files.items():
+            files[key] = (value[0], value[1], 'binary/octet-stream')
+
+        r = requests.post(url, headers=headers, params=params, files=files)
         r.raise_for_status()
         return r.json()
 
@@ -42,5 +59,8 @@ class ConnectionManager:
     def get_json(self, url, append_base_url=True, params={}):
         return self._connections['default'].get_json(url, append_base_url, params)
 
-    def post_json(self, url, data, append_base_url=True, params={}, file=None):
-        return self._connections['default'].post_json(url, data, append_base_url, params, file)
+    def post_json(self, url, data, append_base_url=True, params={}):
+        return self._connections['default'].post_json(url, data, append_base_url, params)
+
+    def post_multipart(self, url, metadata, append_base_url=True, params={}, json_files={}, binary_files={}):
+        return self._connections['default'].post_multipart(url, metadata, append_base_url, params, json_files, binary_files)
