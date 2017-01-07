@@ -5,6 +5,7 @@ from httmock import urlmatch, HTTMock
 from mass_api_client.resources import DomainSample
 from mass_api_client.resources import FileSample
 from mass_api_client.resources import IPSample
+from mass_api_client.resources.sample import URISample
 from tests.httmock_test_case import HTTMockTestCase
 
 
@@ -47,6 +48,10 @@ class ObjectCreationTestCase(HTTMockTestCase):
         data = {'ip_address': '192.168.1.1', 'tlp_level': 0}
         self.assertCorrectHTTPDetailCreation(IPSample, r'/api/sample/submit_ip/', data,
                                              'tests/data/ip_sample.json')
+
+    def test_creating_uri_sample(self):
+        data = {'uri': 'http://uni-bonn.de/test', 'tlp_level': 0}
+        self.assertCorrectHTTPDetailCreation(URISample, r'/api/sample/submit_uri/', data, 'tests/data/uri_sample.json')
 
     def test_creating_file_sample(self):
         with open('tests/data/test_data', 'rb') as file:

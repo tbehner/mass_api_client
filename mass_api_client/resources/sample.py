@@ -1,4 +1,4 @@
-from mass_api_client.schemas import DomainSampleSchema, IPSampleSchema, FileSampleSchema, ExecutableBinarySampleSchema
+from mass_api_client.schemas import DomainSampleSchema, IPSampleSchema, URISampleSchema, FileSampleSchema, ExecutableBinarySampleSchema
 from .base import BaseResource
 
 
@@ -34,6 +34,15 @@ class DomainSample(Sample):
         return cls._create(domain=domain, tlp_level=tlp_level)
 
 
+class URISample(Sample):
+    schema = URISampleSchema()
+    creation_point = 'sample/submit_uri'
+
+    @classmethod
+    def create(cls, uri, tlp_level=0):
+        return cls._create(uri=uri, tlp_level=tlp_level)
+
+
 class IPSample(Sample):
     schema = IPSampleSchema()
     creation_point = 'sample/submit_ip'
@@ -65,6 +74,7 @@ class ExecutableBinarySample(FileSample):
 sample_classes = {
                     'Sample.DomainSample': DomainSample,
                     'Sample.IPSample': IPSample,
+                    'Sample.URISample': URISample,
                     'Sample.FileSample': FileSample,
                     'Sample.FileSample.ExecutableBinarySample': ExecutableBinarySample
                   }

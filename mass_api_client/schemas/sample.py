@@ -13,12 +13,17 @@ class SampleSchema(BaseSchema):
 
 class DomainSampleSchema(SampleSchema):
     _cls = fields.Str(validate=validate.Equal("Sample.DomainSample"))
-    domain = fields.Str()
+    domain = fields.Str(required=True)
 
 
 class IPSampleSchema(SampleSchema):
     _cls = fields.Str(validate=validate.Equal("Sample.IPSample"))
-    ip_address = fields.Str()
+    ip_address = fields.Str(required=True)
+
+
+class URISampleSchema(SampleSchema):
+    _cls = fields.Str(validate=validate.Equal("Sample.URISample"))
+    uri = fields.Url(required=True)
 
 
 class FileSampleSchema(SampleSchema):
