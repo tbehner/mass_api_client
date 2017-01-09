@@ -1,3 +1,4 @@
+from mass_api_client.resources import Report
 from mass_api_client.schemas import DomainSampleSchema, IPSampleSchema, URISampleSchema, FileSampleSchema, ExecutableBinarySampleSchema
 from .base import BaseResource
 
@@ -17,6 +18,10 @@ class Sample(BaseResource):
 
         subcls = sample_classes[data['_cls']]
         return super(Sample, subcls)._deserialize(data, many)
+
+    def get_reports(self):
+        url = '{}reports/'.format(self.url)
+        return Report._get_list_from_url(url, append_base_url=False)
 
     def __repr__(self):
         return '[{}] {}'.format(str(self.__class__.__name__), str(self.id))
