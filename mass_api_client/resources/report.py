@@ -20,9 +20,9 @@ class Report(BaseResource):
         return self.__repr__()
 
     @classmethod
-    def create(cls, scheduled_analysis, json_report_objects={}, raw_report_objects={}):
+    def create(cls, scheduled_analysis, tags=[], json_report_objects={}, raw_report_objects={}):
         url = cls.creation_point.format(scheduled_analysis=scheduled_analysis.id)
-        return cls._create(url=url, additional_json_files=json_report_objects, additional_binary_files=raw_report_objects, tags=['test'])
+        return cls._create(url=url, additional_json_files=json_report_objects, additional_binary_files=raw_report_objects, tags=tags)
 
     def get_json_report_object(self, key):
         cm = ConnectionManager()
