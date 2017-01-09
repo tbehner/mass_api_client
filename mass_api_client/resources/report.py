@@ -1,3 +1,4 @@
+from mass_api_client.connection_manager import ConnectionManager
 from mass_api_client.schemas import ReportSchema
 from .base import BaseResource
 
@@ -22,3 +23,11 @@ class Report(BaseResource):
     def create(cls, scheduled_analysis, json_report_objects={}, raw_report_objects={}):
         url = cls.creation_point.format(scheduled_analysis=scheduled_analysis.id)
         return cls._create(url=url, additional_json_files=json_report_objects, additional_binary_files=raw_report_objects, tags=['test'])
+
+    def get_json_report_object(self, key):
+        cm = ConnectionManager()
+        return cm.get_json(self.json_report_objects[key], append_base_url=False)
+
+    def download_raw_report_object_to_file(self, key, file):
+        cm = ConnectionManager()
+        return cm.download_to_file(self.raw_report_objects[key], file, append_base_url=False)
