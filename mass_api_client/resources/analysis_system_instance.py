@@ -6,6 +6,11 @@ from .scheduled_analysis import ScheduledAnalysis
 class AnalysisSystemInstance(BaseResource):
     schema = AnalysisSystemInstanceSchema()
     endpoint = 'analysis_system_instance'
+    creation_point = endpoint
+
+    @classmethod
+    def create(cls, analysis_system):
+        return cls._create(analysis_system=analysis_system)
 
     def schedule_analysis(self, sample):
         return ScheduledAnalysis.create(self, sample)
