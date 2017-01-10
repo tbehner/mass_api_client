@@ -10,10 +10,10 @@ class AnalysisSystemInstance(BaseResource):
 
     @classmethod
     def create(cls, analysis_system):
-        return cls._create(analysis_system=analysis_system)
+        return cls._create(analysis_system=analysis_system.url)
 
     def schedule_analysis(self, sample):
-        return ScheduledAnalysis.create(self.url, sample.url)
+        return ScheduledAnalysis.create(self, sample)
 
     def get_scheduled_analyses(self):
         url = '{}scheduled_analyses/'.format(self.url)

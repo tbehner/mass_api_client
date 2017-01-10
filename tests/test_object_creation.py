@@ -3,13 +3,21 @@ import json
 from httmock import urlmatch, HTTMock
 
 from mass_api_client.resources import *
+from mass_api_client.resources.base import BaseResource
 from tests.httmock_test_case import HTTMockTestCase
 
 
 class ObjectCreationTestCase(HTTMockTestCase):
-    def assertCorrectHTTPDetailCreation(self, resource, path, data, data_path):
+    def assertCorrectHTTPDetailCreation(self, resource, path, metadata, data_path):
         with open(data_path) as data_file:
             response_data = json.load(data_file)
+
+        data = {}
+        for key, value in metadata.items():
+            if isinstance(value, BaseResource):
+                data[key] = value.url
+            else:
+                data[key] = value
 
         @urlmatch(netloc=r'localhost', path=path)
         def mass_mock_creation(url, request):
@@ -18,7 +26,7 @@ class ObjectCreationTestCase(HTTMockTestCase):
             return json.dumps(response_data)
 
         with HTTMock(mass_mock_creation):
-            obj = resource.create(**data)
+            obj = resource.create(**metadata)
             self.assertEqual(response_data, obj._to_json())
 
     def assertCorrectHTTPDetailCreationWithFile(self, resource, path, metadata, data_path, filename, file):
@@ -36,20 +44,35 @@ class ObjectCreationTestCase(HTTMockTestCase):
             obj = resource.create(filename=filename, file=file, **metadata)
             self.assertEqual(response_data, obj._to_json())
 
+    def setUp(self):
+        super(ObjectCreationTestCase, self).setUp()
+
+        with open('tests/data/analysis_system.json') as f:
+            data = AnalysisSystem._deserialize(json.load(f))
+            self.analysis_system = AnalysisSystem._create_instance_from_data(data)
+
+        with open('tests/data/analysis_system_instance.json') as f:
+            data = AnalysisSystemInstance._deserialize(json.load(f))
+            self.analysis_system_instance = AnalysisSystemInstance._create_instance_from_data(data)
+
+        with open('tests/data/file_sample.json') as f:
+            data = FileSample._deserialize(json.load(f))
+            self.file_sample = FileSample._create_instance_from_data(data)
+
     def test_creating_analysis_system(self):
         data = {'identifier_name': 'identifier', 'verbose_name': 'Verbose name', 'tag_filter_expression': ''}
         self.assertCorrectHTTPDetailCreation(AnalysisSystem, r'/api/analysis_system/', data,
                                              'tests/data/analysis_system.json')
 
     def test_creating_analysis_system_instance(self):
-        data = {'analysis_system': 'http://localhost/api/analysis_system/strings/'}
+        data = {'analysis_system': self.analysis_system}
         self.assertCorrectHTTPDetailCreation(AnalysisSystemInstance, r'/api/analysis_system_instance/', data,
                                              'tests/data/analysis_system_instance.json')
 
     def test_creating_scheduled_analysis(self):
         data = {
-            'analysis_system_instance': 'http://localhost/api/analysis_system_instance/5a391093-f251-4c08-991d-26fc5e0e5793/',
-            'sample': 'http://localhost:5000/api/sample/580a2429a7a7f126d0cc0d10/'}
+            'analysis_system_instance': self.analysis_system_instance,
+            'sample': self.file_sample}
         self.assertCorrectHTTPDetailCreation(ScheduledAnalysis, r'/api/scheduled_analysis/', data,
                                              'tests/data/scheduled_analysis.json')
 
