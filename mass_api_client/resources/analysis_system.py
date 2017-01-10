@@ -9,8 +9,8 @@ class AnalysisSystem(BaseResource):
     creation_point = endpoint
 
     @classmethod
-    def create(cls, identifier_name, verbose_name):
-        return cls._create(identifier_name=identifier_name, verbose_name=verbose_name)
+    def create(cls, identifier_name, verbose_name, tag_filter_expression=''):
+        return cls._create(identifier_name=identifier_name, verbose_name=verbose_name, tag_filter_expression=tag_filter_expression)
 
     def create_analysis_system_instance(self):
         return AnalysisSystemInstance.create(analysis_system=self.url)

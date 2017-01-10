@@ -13,7 +13,7 @@ class AnalysisSystemInstance(BaseResource):
         return cls._create(analysis_system=analysis_system)
 
     def schedule_analysis(self, sample):
-        return ScheduledAnalysis.create(self, sample)
+        return ScheduledAnalysis.create(self.url, sample.url)
 
     def get_scheduled_analyses(self):
         url = '{}scheduled_analyses/'.format(self.url)

@@ -2,10 +2,7 @@ import json
 
 from httmock import urlmatch, HTTMock
 
-from mass_api_client.resources import DomainSample
-from mass_api_client.resources import FileSample
-from mass_api_client.resources import IPSample
-from mass_api_client.resources.sample import URISample
+from mass_api_client.resources import *
 from tests.httmock_test_case import HTTMockTestCase
 
 
@@ -38,6 +35,23 @@ class ObjectCreationTestCase(HTTMockTestCase):
         with HTTMock(mass_mock_creation):
             obj = resource.create(filename=filename, file=file, **metadata)
             self.assertEqual(response_data, obj._to_json())
+
+    def test_creating_analysis_system(self):
+        data = {'identifier_name': 'identifier', 'verbose_name': 'Verbose name', 'tag_filter_expression': ''}
+        self.assertCorrectHTTPDetailCreation(AnalysisSystem, r'/api/analysis_system/', data,
+                                             'tests/data/analysis_system.json')
+
+    def test_creating_analysis_system_instance(self):
+        data = {'analysis_system': 'http://localhost/api/analysis_system/strings/'}
+        self.assertCorrectHTTPDetailCreation(AnalysisSystemInstance, r'/api/analysis_system_instance/', data,
+                                             'tests/data/analysis_system_instance.json')
+
+    def test_creating_scheduled_analysis(self):
+        data = {
+            'analysis_system_instance': 'http://localhost/api/analysis_system_instance/5a391093-f251-4c08-991d-26fc5e0e5793/',
+            'sample': 'http://localhost:5000/api/sample/580a2429a7a7f126d0cc0d10/'}
+        self.assertCorrectHTTPDetailCreation(ScheduledAnalysis, r'/api/scheduled_analysis/', data,
+                                             'tests/data/scheduled_analysis.json')
 
     def test_creating_domain_sample(self):
         data = {'domain': 'uni-bonn.de', 'tlp_level': 0}
