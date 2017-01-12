@@ -14,6 +14,7 @@ class BaseResource:
     endpoint = None
     creation_point = None
     filter_parameters = []
+    default_filters = {}
 
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
@@ -74,11 +75,11 @@ class BaseResource:
 
     @classmethod
     def all(cls):
-        return cls._get_list_from_url('{}/'.format(cls.endpoint))
+        return cls._get_list_from_url('{}/'.format(cls.endpoint), params=cls.default_filters)
 
     @classmethod
     def query(cls, **kwargs):
-        params = {}
+        params = cls.default_filters
 
         for key, value in kwargs.items():
             if key in cls.filter_parameters:

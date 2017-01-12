@@ -33,6 +33,7 @@ class Sample(BaseResource):
 class DomainSample(Sample):
     schema = DomainSampleSchema()
     creation_point = 'sample/submit_domain'
+    default_filters = {'_cls': 'Sample.DomainSample'}
 
     @classmethod
     def create(cls, domain, tlp_level=0):
@@ -42,6 +43,7 @@ class DomainSample(Sample):
 class URISample(Sample):
     schema = URISampleSchema()
     creation_point = 'sample/submit_uri'
+    default_filters = {'_cls': 'Sample.URISample'}
 
     @classmethod
     def create(cls, uri, tlp_level=0):
@@ -51,6 +53,7 @@ class URISample(Sample):
 class IPSample(Sample):
     schema = IPSampleSchema()
     creation_point = 'sample/submit_ip'
+    default_filters = {'_cls': 'Sample.IPSample'}
 
     @classmethod
     def create(cls, ip_address, tlp_level=0):
@@ -60,12 +63,14 @@ class IPSample(Sample):
 class FileSample(Sample):
     schema = FileSampleSchema()
     creation_point = 'sample/submit_file'
+    default_filters = {'_cls': 'Sample.FileSample'}
 
     filter_parameters = [
         'md5sum',
         'sha1sum',
         'sha256sum',
-        'sha512sum'
+        'sha512sum',
+        '_cls'
     ]
 
     @classmethod
@@ -75,6 +80,7 @@ class FileSample(Sample):
 
 class ExecutableBinarySample(FileSample):
     schema = ExecutableBinarySampleSchema()
+    default_filters = {'_cls': 'Sample.FileSample.ExecutableBinarySample'}
 
 sample_classes = {
                     'Sample.DomainSample': DomainSample,
