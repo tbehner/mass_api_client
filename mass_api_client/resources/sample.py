@@ -63,14 +63,13 @@ class IPSample(Sample):
 class FileSample(Sample):
     schema = FileSampleSchema()
     creation_point = 'sample/submit_file'
-    default_filters = {'_cls': 'Sample.FileSample'}
+    default_filters = {'_cls__startswith': 'Sample.FileSample'}
 
     filter_parameters = [
         'md5sum',
         'sha1sum',
         'sha256sum',
-        'sha512sum',
-        '_cls'
+        'sha512sum'
     ]
 
     @classmethod
