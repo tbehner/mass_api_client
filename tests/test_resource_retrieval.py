@@ -44,7 +44,7 @@ class ReportRetrievalTestCase(HTTMockTestCase):
         with open('tests/data/sample_list.json') as data_file:
             data = json.load(data_file)
 
-        params = {'_cls': 'Sample.FileSample', 'md5sum': 'ee0fe7202aa7c30293cc7897e8c67837'}
+        params = {'_cls__startswith': 'Sample.FileSample', 'md5sum': 'ee0fe7202aa7c30293cc7897e8c67837'}
 
         @all_requests
         def mass_mock_result(url, request):
