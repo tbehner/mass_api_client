@@ -13,11 +13,4 @@ class ScheduledAnalysis(BaseResource):
         return cls._create(analysis_system_instance=analysis_system_instance.url, sample=sample.url)
 
     def create_report(self, json_report_objects=None, raw_report_objects=None, tags=None):
-        if tags is None:
-            tags = []
-        if raw_report_objects is None:
-            raw_report_objects = {}
-        if json_report_objects is None:
-            json_report_objects = {}
-
         return Report.create(self, json_report_objects=json_report_objects, raw_report_objects=raw_report_objects, tags=tags)

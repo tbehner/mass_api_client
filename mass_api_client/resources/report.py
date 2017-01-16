@@ -21,10 +21,6 @@ class Report(BaseResource):
 
     @classmethod
     def create(cls, scheduled_analysis, tags=None, json_report_objects=None, raw_report_objects=None):
-        if raw_report_objects is None:
-            raw_report_objects = {}
-        if json_report_objects is None:
-            json_report_objects = {}
         if tags is None:
             tags = []
 
