@@ -72,14 +72,26 @@ class ConnectionManager:
     def register_connection(self, alias, api_key, base_url):
         self._connections[alias] = Connection(api_key, base_url)
 
-    def download_to_file(self, url, file, append_base_url=True, params={}):
+    def download_to_file(self, url, file, append_base_url=True, params=None):
+        if params is None:
+            params = {}
         self._connections['default'].download_to_file(url, file, append_base_url, params)
 
-    def get_json(self, url, append_base_url=True, params={}):
+    def get_json(self, url, append_base_url=True, params=None):
+        if params is None:
+            params = {}
         return self._connections['default'].get_json(url, append_base_url, params)
 
-    def post_json(self, url, data, append_base_url=True, params={}):
+    def post_json(self, url, data, append_base_url=True, params=None):
+        if params is None:
+            params = {}
         return self._connections['default'].post_json(url, data, append_base_url, params)
 
-    def post_multipart(self, url, metadata, append_base_url=True, params={}, json_files={}, binary_files={}):
+    def post_multipart(self, url, metadata, append_base_url=True, params=None, json_files=None, binary_files=None):
+        if binary_files is None:
+            binary_files = {}
+        if json_files is None:
+            json_files = {}
+        if params is None:
+            params = {}
         return self._connections['default'].post_multipart(url, metadata, append_base_url, params, json_files, binary_files)

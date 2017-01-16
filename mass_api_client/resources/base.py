@@ -45,9 +45,11 @@ class BaseResource:
         return cls._create_instance_from_data(deserialized)
 
     @classmethod
-    def _get_list_from_url(cls, url, params={}, append_base_url=True):
-        cm = ConnectionManager()
+    def _get_list_from_url(cls, url, params=None, append_base_url=True):
+        if params is None:
+            params = {}
 
+        cm = ConnectionManager()
         deserialized = cls._deserialize(cm.get_json(url, params=params, append_base_url=append_base_url)['results'], many=True)
         objects = [cls._create_instance_from_data(detail) for detail in deserialized]
 
