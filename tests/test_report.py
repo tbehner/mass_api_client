@@ -9,4 +9,4 @@ class ReportTestCase(SerializationTestCase):
         with open('tests/data/report.json') as data_file:
             data = json.load(data_file)
 
-        self.assertEqualAfterSerialization(Report(), data)
+        self.assertEqualAfterSerialization(Report, data)

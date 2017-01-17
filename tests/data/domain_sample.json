@@ -2,7 +2,7 @@
   "_cls": "Sample.DomainSample",
   "delivery_date": "2016-10-21T14:20:03+00:00",
   "dispatched_to": [],
-  "domain": "http://uni-bonn.de",
+  "domain": "uni-bonn.de",
   "first_seen": "2016-10-21T14:20:03+00:00",
   "id": "580a2413a7a7f126d0cc0d0a",
   "tags": [

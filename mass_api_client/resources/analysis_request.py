@@ -4,3 +4,4 @@ from .base import BaseResource
 
 class AnalysisRequest(BaseResource):
     schema = AnalysisRequestSchema()
+    endpoint = 'analysis_request'

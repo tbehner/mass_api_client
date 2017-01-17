@@ -7,4 +7,4 @@ class ScheduledAnalysisSchema(BaseSchema):
     analysis_system_instance = fields.Url(required=True)
     sample = fields.Url(required=True)
     analysis_scheduled = fields.DateTime(required=True)
-    priority = fields.Int(default=0, required=True)
+    priority = fields.Int(required=True)
