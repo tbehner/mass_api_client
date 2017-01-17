@@ -38,7 +38,7 @@ class URISample(Sample):
     @classmethod
     def create(cls, uri, tlp_level=0):
         return cls._create(uri=uri, tlp_level=tlp_level)
-
+      
 
 class IPSample(Sample):
     schema = IPSampleSchema()
@@ -73,4 +73,3 @@ class ExecutableBinarySample(FileSample):
     schema = ExecutableBinarySampleSchema()
     _class_identifier = 'Sample.FileSample.ExecutableBinarySample'
     default_filters = {'_cls': _class_identifier}
-

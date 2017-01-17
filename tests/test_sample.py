@@ -42,3 +42,4 @@ class ExecutableBinarySampleTestCase(SerializationTestCase):
             data = json.load(data_file)
 
         self.assertEqualAfterSerialization(ExecutableBinarySample, data)
+ 

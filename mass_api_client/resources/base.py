@@ -27,7 +27,7 @@ class BaseResource:
     @classmethod
     def _deserialize(cls, data, many=False):
         deserialized, errors = cls.schema.load(data, many=many)
-
+        
         if errors:
             raise ValueError('An error occurred during object deserialization: {}'.format(errors))
 
