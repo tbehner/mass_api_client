@@ -94,4 +94,4 @@ class ObjectCreationTestCase(HTTMockTestCase):
         with open('tests/data/test_data', 'rb') as file:
             data = {'tlp_level': 0}
             self.assertCorrectHTTPDetailCreationWithFile(FileSample, r'/api/sample/submit_file/', data,
-                                                         'tests/data/ip_sample.json', 'test_data', file)
+                                                         'tests/data/file_sample.json', 'test_data', file)

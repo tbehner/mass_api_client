@@ -41,7 +41,7 @@ class ReportRetrievalTestCase(HTTMockTestCase):
             self.assertEqual(data_obj, py_obj._to_json())
 
     def test_querying_file_samples(self):
-        with open('tests/data/sample_list.json') as data_file:
+        with open('tests/data/file_sample_list.json') as data_file:
             data = json.load(data_file)
 
         params = {'_cls__startswith': 'Sample.FileSample', 'md5sum': 'ee0fe7202aa7c30293cc7897e8c67837'}

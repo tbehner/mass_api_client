@@ -5,10 +5,32 @@ from .base import BaseResource
 
 class Sample(BaseResource):
     endpoint = 'sample'
+    _class_identifier = 'Sample'
+
+    @classmethod
+    def _get_subclass_by_identifier(cls, identifier):
+        if cls._class_identifier == identifier:
+            return cls
+
+        for x in cls.__subclasses__():
+            subcls = x._get_subclass_by_identifier(identifier)
+            if subcls is not None:
+                return subcls
+
+        return None
+
+    @classmethod
+    def _search_subclass(cls, identifier):
+        subcls = cls._get_subclass_by_identifier(identifier)
+
+        if subcls is None:
+            raise ValueError('{} is no subclass of {}'.format(identifier, cls.__name__))
+
+        return subcls
 
     @classmethod
     def _create_instance_from_data(cls, data):
-        subcls = sample_classes[data['_cls']]
+        subcls = cls._search_subclass(data['_cls'])
         return subcls(**data)
 
     @classmethod
@@ -16,7 +38,8 @@ class Sample(BaseResource):
         if many:
             return [cls._deserialize(item) for item in data]
 
-        subcls = sample_classes[data['_cls']]
+        subcls = cls._search_subclass(data['_cls'])
+
         return super(Sample, subcls)._deserialize(data, many)
 
     def get_reports(self):
@@ -32,6 +55,7 @@ class Sample(BaseResource):
 
 class DomainSample(Sample):
     schema = DomainSampleSchema()
+    _class_identifier = 'Sample.DomainSample'
     creation_point = 'sample/submit_domain'
     default_filters = {'_cls': 'Sample.DomainSample'}
 
@@ -42,6 +66,7 @@ class DomainSample(Sample):
 
 class URISample(Sample):
     schema = URISampleSchema()
+    _class_identifier = 'Sample.URISample'
     creation_point = 'sample/submit_uri'
     default_filters = {'_cls': 'Sample.URISample'}
 
@@ -52,6 +77,7 @@ class URISample(Sample):
 
 class IPSample(Sample):
     schema = IPSampleSchema()
+    _class_identifier = 'Sample.IPSample'
     creation_point = 'sample/submit_ip'
     default_filters = {'_cls': 'Sample.IPSample'}
 
@@ -62,6 +88,7 @@ class IPSample(Sample):
 
 class FileSample(Sample):
     schema = FileSampleSchema()
+    _class_identifier = 'Sample.FileSample'
     creation_point = 'sample/submit_file'
     default_filters = {'_cls__startswith': 'Sample.FileSample'}
 
@@ -79,12 +106,6 @@ class FileSample(Sample):
 
 class ExecutableBinarySample(FileSample):
     schema = ExecutableBinarySampleSchema()
+    _class_identifier = 'Sample.FileSample.ExecutableBinarySample'
     default_filters = {'_cls': 'Sample.FileSample.ExecutableBinarySample'}
 
-sample_classes = {
-                    'Sample.DomainSample': DomainSample,
-                    'Sample.IPSample': IPSample,
-                    'Sample.URISample': URISample,
-                    'Sample.FileSample': FileSample,
-                    'Sample.FileSample.ExecutableBinarySample': ExecutableBinarySample
-                  }
