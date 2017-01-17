@@ -1,46 +1,11 @@
 from mass_api_client.resources import Report
 from mass_api_client.schemas import DomainSampleSchema, IPSampleSchema, URISampleSchema, FileSampleSchema, ExecutableBinarySampleSchema
-from .base import BaseResource
+from .base_with_subclasses import BaseWithSubclasses
 
 
-class Sample(BaseResource):
+class Sample(BaseWithSubclasses):
     endpoint = 'sample'
     _class_identifier = 'Sample'
-
-    @classmethod
-    def _get_subclass_by_identifier(cls, identifier):
-        if cls._class_identifier == identifier:
-            return cls
-
-        for x in cls.__subclasses__():
-            subcls = x._get_subclass_by_identifier(identifier)
-            if subcls is not None:
-                return subcls
-
-        return None
-
-    @classmethod
-    def _search_subclass(cls, identifier):
-        subcls = cls._get_subclass_by_identifier(identifier)
-
-        if subcls is None:
-            raise ValueError('{} is no subclass of {}'.format(identifier, cls.__name__))
-
-        return subcls
-
-    @classmethod
-    def _create_instance_from_data(cls, data):
-        subcls = cls._search_subclass(data['_cls'])
-        return subcls(**data)
-
-    @classmethod
-    def _deserialize(cls, data, many=False):
-        if many:
-            return [cls._deserialize(item) for item in data]
-
-        subcls = cls._search_subclass(data['_cls'])
-
-        return super(Sample, subcls)._deserialize(data, many)
 
     def get_reports(self):
         url = '{}reports/'.format(self.url)
@@ -57,7 +22,7 @@ class DomainSample(Sample):
     schema = DomainSampleSchema()
     _class_identifier = 'Sample.DomainSample'
     creation_point = 'sample/submit_domain'
-    default_filters = {'_cls': 'Sample.DomainSample'}
+    default_filters = {'_cls': _class_identifier}
 
     @classmethod
     def create(cls, domain, tlp_level=0):
@@ -68,7 +33,7 @@ class URISample(Sample):
     schema = URISampleSchema()
     _class_identifier = 'Sample.URISample'
     creation_point = 'sample/submit_uri'
-    default_filters = {'_cls': 'Sample.URISample'}
+    default_filters = {'_cls': _class_identifier}
 
     @classmethod
     def create(cls, uri, tlp_level=0):
@@ -79,7 +44,7 @@ class IPSample(Sample):
     schema = IPSampleSchema()
     _class_identifier = 'Sample.IPSample'
     creation_point = 'sample/submit_ip'
-    default_filters = {'_cls': 'Sample.IPSample'}
+    default_filters = {'_cls': _class_identifier}
 
     @classmethod
     def create(cls, ip_address, tlp_level=0):
@@ -90,7 +55,7 @@ class FileSample(Sample):
     schema = FileSampleSchema()
     _class_identifier = 'Sample.FileSample'
     creation_point = 'sample/submit_file'
-    default_filters = {'_cls__startswith': 'Sample.FileSample'}
+    default_filters = {'_cls__startswith': _class_identifier}
 
     filter_parameters = [
         'md5sum',
@@ -107,5 +72,5 @@ class FileSample(Sample):
 class ExecutableBinarySample(FileSample):
     schema = ExecutableBinarySampleSchema()
     _class_identifier = 'Sample.FileSample.ExecutableBinarySample'
-    default_filters = {'_cls': 'Sample.FileSample.ExecutableBinarySample'}
+    default_filters = {'_cls': _class_identifier}
 
