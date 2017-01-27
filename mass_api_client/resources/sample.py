@@ -1,3 +1,4 @@
+from mass_api_client.connection_manager import ConnectionManager
 from mass_api_client.resources import Report
 from mass_api_client.schemas import DomainSampleSchema, IPSampleSchema, URISampleSchema, FileSampleSchema, ExecutableBinarySampleSchema
 from .base_with_subclasses import BaseWithSubclasses
@@ -67,6 +68,10 @@ class FileSample(Sample):
     @classmethod
     def create(cls, filename, file, tlp_level=0):
         return cls._create(additional_binary_files={'file': (filename, file)}, tlp_level=tlp_level)
+
+    def download_to_file(self, file):
+        cm = ConnectionManager()
+        return cm.download_to_file(self.file, file, append_base_url=False)
 
 
 class ExecutableBinarySample(FileSample):
