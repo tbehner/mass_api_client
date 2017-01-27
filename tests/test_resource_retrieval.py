@@ -1,4 +1,5 @@
 import json
+import tempfile
 
 from httmock import all_requests, urlmatch, HTTMock
 
@@ -58,6 +59,25 @@ class ReportRetrievalTestCase(HTTMockTestCase):
 
         for data_obj, py_obj in zip(data['results'], obj_list):
             self.assertEqual(data_obj, py_obj._to_json())
+
+    def test_downloading_sample_file(self):
+        test_file_path = 'tests/data/test_data'
+
+        @urlmatch(netloc=r'localhost', path=r'/api/sample/580a2429a7a7f126d0cc0d10/download/')
+        def mass_mock_file(url, request):
+            self.assertAuthorized(request)
+            with open(test_file_path, 'rb') as data_file:
+                content = data_file.read()
+            return content
+
+        with open('tests/data/file_sample.json') as f:
+            data = FileSample._deserialize(json.load(f))
+            file_sample = FileSample._create_instance_from_data(data)
+
+        with HTTMock(mass_mock_file), tempfile.TemporaryFile() as tmpfile, open(test_file_path, 'rb') as data_file:
+            file_sample.download_to_file(tmpfile)
+            tmpfile.seek(0)
+            self.assertEqual(data_file.read(), tmpfile.read())
 
     def test_raising_exception_for_invalid_filter_parameters(self):
         with self.assertRaises(ValueError):
