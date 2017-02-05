@@ -69,7 +69,8 @@ class FileSample(Sample):
         'md5sum',
         'sha1sum',
         'sha256sum',
-        'sha512sum'
+        'sha512sum',
+        'mime_type'
     ]
 
     @classmethod
