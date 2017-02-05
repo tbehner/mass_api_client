@@ -8,6 +8,13 @@ class Sample(BaseWithSubclasses):
     endpoint = 'sample'
     _class_identifier = 'Sample'
 
+    filter_parameters = [
+        'delivery_date__lte',
+        'delivery_date__gte',
+        'first_seen__lte',
+        'first_seen_gte'
+    ]
+
     def get_reports(self):
         url = '{}reports/'.format(self.url)
         return Report._get_list_from_url(url, append_base_url=False)
@@ -58,7 +65,7 @@ class FileSample(Sample):
     creation_point = 'sample/submit_file'
     default_filters = {'_cls__startswith': _class_identifier}
 
-    filter_parameters = [
+    filter_parameters = Sample.filter_parameters + [
         'md5sum',
         'sha1sum',
         'sha256sum',
