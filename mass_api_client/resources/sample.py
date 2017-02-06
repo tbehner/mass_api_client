@@ -12,7 +12,7 @@ class Sample(BaseWithSubclasses):
         'delivery_date__lte',
         'delivery_date__gte',
         'first_seen__lte',
-        'first_seen_gte'
+        'first_seen__gte'
     ]
 
     def get_reports(self):
@@ -70,7 +70,12 @@ class FileSample(Sample):
         'sha1sum',
         'sha256sum',
         'sha512sum',
-        'mime_type'
+        'mime_type',
+        'file_names',
+        'file_size__lte',
+        'file_size__gte',
+        'shannon_entropy__lte',
+        'shannon_entropy__gte'
     ]
 
     @classmethod
