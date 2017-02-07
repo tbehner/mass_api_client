@@ -12,7 +12,8 @@ class Sample(BaseWithSubclasses):
         'delivery_date__lte',
         'delivery_date__gte',
         'first_seen__lte',
-        'first_seen__gte'
+        'first_seen__gte',
+        'tags__all'
     ]
 
     def get_reports(self):
