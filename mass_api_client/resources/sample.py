@@ -33,6 +33,13 @@ class DomainSample(Sample):
     creation_point = 'sample/submit_domain'
     default_filters = {'_cls': _class_identifier}
 
+    filter_parameters = Sample.filter_parameters + [
+        'domain',
+        'domain__contains',
+        'domain__startswith',
+        'domain__endswith'
+    ]
+
     @classmethod
     def create(cls, domain, tlp_level=0):
         return cls._create(domain=domain, tlp_level=tlp_level)
@@ -44,6 +51,13 @@ class URISample(Sample):
     creation_point = 'sample/submit_uri'
     default_filters = {'_cls': _class_identifier}
 
+    filter_parameters = Sample.filter_parameters + [
+        'uri',
+        'uri__contains',
+        'uri__startswith',
+        'uri__endswith'
+    ]
+
     @classmethod
     def create(cls, uri, tlp_level=0):
         return cls._create(uri=uri, tlp_level=tlp_level)
@@ -54,6 +68,11 @@ class IPSample(Sample):
     _class_identifier = 'Sample.IPSample'
     creation_point = 'sample/submit_ip'
     default_filters = {'_cls': _class_identifier}
+
+    filter_parameters = Sample.filter_parameters + [
+        'ip_address',
+        'ip_address__startswith'
+    ]
 
     @classmethod
     def create(cls, ip_address, tlp_level=0):
