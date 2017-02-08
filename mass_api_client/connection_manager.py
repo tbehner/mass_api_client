@@ -56,7 +56,7 @@ class Connection:
         json_files['metadata'] = ('metadata', metadata)
 
         for key, value in json_files.items():
-            files[key] = (value[0], json.dumps(value[1]), 'application/json')
+            files[key] = (None, json.dumps(value[1]), 'application/json')
 
         for key, value in binary_files.items():
             files[key] = (value[0], value[1], 'binary/octet-stream')

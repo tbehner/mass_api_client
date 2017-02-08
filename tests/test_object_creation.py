@@ -37,7 +37,7 @@ class ObjectCreationTestCase(HTTMockTestCase):
         def mass_mock_creation(url, request):
             self.assertAuthorized(request)
             self.assertHasFile(request, 'file', filename, file)
-            self.assertHasFile(request, 'metadata', 'metadata', json.dumps(metadata), content_type='application/json')
+            self.assertHasForm(request, 'metadata', json.dumps(metadata), content_type='application/json')
             return json.dumps(response_data)
 
         with HTTMock(mass_mock_creation):
