@@ -45,6 +45,19 @@ class BaseResource:
         return cls._create_instance_from_data(deserialized)
 
     @classmethod
+    def _get_iter_from_url(cls, url, params={}, append_base_url=True):
+        cm = ConnectionManager()
+        next_url = url
+
+        while next_url is not None:
+            res = cm.get_json(next_url, params=params, append_base_url=append_base_url)
+            deserialized = cls._deserialize(res['results'], many=True)
+            for data in deserialized:
+                yield cls._create_instance_from_data(data)
+            next_url = res['next']
+            append_base_url = False
+
+    @classmethod
     def _get_list_from_url(cls, url, params=None, append_base_url=True):
         if params is None:
             params = {}
@@ -74,6 +87,10 @@ class BaseResource:
     @classmethod
     def get(cls, identifier):
         return cls._get_detail_from_url('{}/{}/'.format(cls.endpoint, identifier))
+
+    @classmethod
+    def items(cls):
+        return cls._get_iter_from_url('{}/'.format(cls.endpoint), params=cls.default_filters)
 
     @classmethod
     def all(cls):

@@ -1,5 +1,6 @@
 import json
 import tempfile
+import re
 
 from httmock import all_requests, urlmatch, HTTMock
 
@@ -40,6 +41,22 @@ class ReportRetrievalTestCase(HTTMockTestCase):
 
         for data_obj, py_obj in zip(data['results'], obj_list):
             self.assertEqual(data_obj, py_obj._to_json())
+
+    def assertCorrectHTTPIterRetrieval(self, resource, path, data_paths):
+
+        @urlmatch(netloc=r'localhost', path=path)
+        def mass_mock_list(url, request):
+            data_file = data_paths[0] if url.query == '' else data_paths[1]
+            with open(data_file) as data_file:
+                data = json.load(data_file)
+
+            self.assertAuthorized(request)
+            return json.dumps(data)
+
+        with HTTMock(mass_mock_list):
+            obj_list = list(resource.items())
+
+        self.assertEqual(len(obj_list), 4)
 
     def test_querying_file_samples(self):
         with open('tests/data/file_sample_list.json') as data_file:
@@ -85,6 +102,9 @@ class ReportRetrievalTestCase(HTTMockTestCase):
 
     def test_getting_sample_list(self):
         self.assertCorrectHTTPListRetrieval(Sample, r'/api/sample/', 'tests/data/sample_list.json')
+
+    def test_getting_sample_iter(self):
+        self.assertCorrectHTTPIterRetrieval(Sample, r'/api/sample/', ['tests/data/sample_list_with_paging_1.json', 'tests/data/sample_list_with_paging_2.json'])
 
     def test_getting_scheduled_analysis_list(self):
         self.assertCorrectHTTPListRetrieval(ScheduledAnalysis, r'/api/scheduled_analysis/', 'tests/data/scheduled_analyses.json')
