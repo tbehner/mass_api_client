@@ -8,6 +8,14 @@ class Sample(BaseWithSubclasses):
     endpoint = 'sample'
     _class_identifier = 'Sample'
 
+    filter_parameters = [
+        'delivery_date__lte',
+        'delivery_date__gte',
+        'first_seen__lte',
+        'first_seen__gte',
+        'tags__all'
+    ]
+
     def get_reports(self):
         url = '{}reports/'.format(self.url)
         return Report._get_list_from_url(url, append_base_url=False)
@@ -25,6 +33,13 @@ class DomainSample(Sample):
     creation_point = 'sample/submit_domain'
     default_filters = {'_cls': _class_identifier}
 
+    filter_parameters = Sample.filter_parameters + [
+        'domain',
+        'domain__contains',
+        'domain__startswith',
+        'domain__endswith'
+    ]
+
     @classmethod
     def create(cls, domain, tlp_level=0):
         return cls._create(domain=domain, tlp_level=tlp_level)
@@ -35,6 +50,13 @@ class URISample(Sample):
     _class_identifier = 'Sample.URISample'
     creation_point = 'sample/submit_uri'
     default_filters = {'_cls': _class_identifier}
+
+    filter_parameters = Sample.filter_parameters + [
+        'uri',
+        'uri__contains',
+        'uri__startswith',
+        'uri__endswith'
+    ]
 
     @classmethod
     def create(cls, uri, tlp_level=0):
@@ -47,6 +69,11 @@ class IPSample(Sample):
     creation_point = 'sample/submit_ip'
     default_filters = {'_cls': _class_identifier}
 
+    filter_parameters = Sample.filter_parameters + [
+        'ip_address',
+        'ip_address__startswith'
+    ]
+
     @classmethod
     def create(cls, ip_address, tlp_level=0):
         return cls._create(ip_address=ip_address, tlp_level=tlp_level)
@@ -58,11 +85,17 @@ class FileSample(Sample):
     creation_point = 'sample/submit_file'
     default_filters = {'_cls__startswith': _class_identifier}
 
-    filter_parameters = [
+    filter_parameters = Sample.filter_parameters + [
         'md5sum',
         'sha1sum',
         'sha256sum',
-        'sha512sum'
+        'sha512sum',
+        'mime_type',
+        'file_names',
+        'file_size__lte',
+        'file_size__gte',
+        'shannon_entropy__lte',
+        'shannon_entropy__gte'
     ]
 
     @classmethod

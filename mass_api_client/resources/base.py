@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from mass_api_client.connection_manager import ConnectionManager
 
 
@@ -102,7 +104,10 @@ class BaseResource:
 
         for key, value in kwargs.items():
             if key in cls.filter_parameters:
-                params[key] = value
+                if isinstance(value, datetime):
+                    params[key] = value.strftime('%Y-%m-%dT%H:%M:%S+00:00')
+                else:
+                    params[key] = value
             else:
                 raise ValueError('\'{}\' is not a filter parameter for class \'{}\''.format(key, cls.__name__))
 
