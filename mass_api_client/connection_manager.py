@@ -53,7 +53,7 @@ class Connection:
 
         headers = self._default_headers.copy()
         headers.pop('content-type')
-        json_files['metadata'] = ('metadata', metadata)
+        json_files['metadata'] = (None, metadata)
 
         for key, value in json_files.items():
             files[key] = (value[0], json.dumps(value[1]), 'application/json')

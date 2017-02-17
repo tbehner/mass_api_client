@@ -14,6 +14,14 @@ class HTTMockTestCase(unittest.TestCase):
     def assertAuthorized(self, request):
         self.assertEqual(request.headers['Authorization'], 'APIKEY {}'.format(self.api_key))
 
+    def assertHasForm(self, request, form_index, file, content_type=None):
+        request_form = request.original.files[form_index]
+        self.assertEqual(request_form[0], None)
+        self.assertEqual(request_form[1], file)
+
+        if content_type:
+            self.assertEqual(request_form[2], content_type)
+
     def assertHasFile(self, request, file_index, file_name, file, content_type=None):
         request_file = request.original.files[file_index]
         self.assertEqual(request_file[0], file_name)
