@@ -56,7 +56,10 @@ class BaseResource:
             deserialized = cls._deserialize(res['results'], many=True)
             for data in deserialized:
                 yield cls._create_instance_from_data(data)
-            next_url = res['next']
+            try:
+                next_url = res['next']
+            except KeyError:
+                raise StopIteration
             append_base_url = False
 
     @classmethod
