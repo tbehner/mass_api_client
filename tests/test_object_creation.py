@@ -95,3 +95,9 @@ class ObjectCreationTestCase(HTTMockTestCase):
             data = {'tlp_level': 0}
             self.assertCorrectHTTPDetailCreationWithFile(FileSample, r'/api/sample/submit_file/', data,
                                                          'tests/data/file_sample.json', 'test_data', file)
+
+    def test_creating_analysis_request(self):
+        data = {'analysis_system': self.analysis_system,
+                'sample': self.file_sample,
+                }
+        self.assertCorrectHTTPDetailCreation(AnalysisRequest, r'/api/analysis_request/', data, 'tests/data/analysis_request.json')
