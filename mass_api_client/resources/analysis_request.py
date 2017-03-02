@@ -10,4 +10,4 @@ class AnalysisRequest(BaseResource):
 
     @classmethod
     def create(cls, sample, analysis_system):
-        cls._create(sample=sample.url, analysis_system=analysis_system.url)
+        return cls._create(sample=sample.url, analysis_system=analysis_system.url)
